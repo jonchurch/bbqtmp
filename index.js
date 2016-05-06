@@ -89,6 +89,12 @@ controller.hears('hello', 'direct_message', function (bot, message) {
     bot.reply(message, 'Hello!');
 });
 
+controller.hears('Who wants pop a top', 'direct_mention, direct_message' function(bot, message) {
+    
+        bot.reply(message, "Oooh! I LOVE Pop-a-Top!:grin:")
+    
+})
+
 
 /**
  * AN example of what could be:
