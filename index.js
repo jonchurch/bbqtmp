@@ -89,9 +89,9 @@ controller.hears('hello', 'direct_message', function (bot, message) {
     bot.reply(message, 'Hello!');
 });
 
-controller.hears('Who wants pop a top', 'message_received' function(bot, message) {
+controller.hears('lunch run', 'message_received' function(bot, message) {
     
-        bot.reply(message, "Oooh! I LOVE Pop-a-Top!:grin:");
+        bot.reply(message, "Oooh! I LOVE Pop-a-Top!");
     
 });
 
