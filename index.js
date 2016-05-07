@@ -91,8 +91,25 @@ controller.hears('hello', 'direct_message', function (bot, message) {
 
 controller.hears('lunch run', 'direct_message, direct_mention', function(bot, message) {
     
-        bot.reply(message, "Oooh! I LOVE Pop-a-Top!");
-    
+        bot.startConversation(message, function(err,convo) {
+            
+            convo.say('Oooh! I LOVE Pop-a-Top!');
+            convo.ask('Would you like me to see if anyone else wants something?', [{
+                pattern: bot.utterances.yes,
+                callback: function(response, convo){
+                    convo.say('Okay! What a sweetheart you are. :heart:');
+                    convo.next();
+                }
+            },
+            {
+                pattern: bot.utterances.no,
+                callback: function(response, convo){
+                    convo.say('Alright! Well thanks for letting me know. :grin:');
+                    convo.next();
+                }
+            }
+        ]);
+    });
 });
 
 
