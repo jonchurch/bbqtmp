@@ -144,7 +144,7 @@ controller.hears('start', 'direct_mention', function(bot, message) {
 
 controller.hears('end', 'direct_mention', function(bot, message) {
     if (!runHappening) {
-        return.bot.reply(message, 'Nobody is on a run right now. Start a new run with `start`');
+        return bot.reply(message, 'Nobody is on a run right now. Start a new run with `start`');
     }
 
     runHappening = false;
