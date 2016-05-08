@@ -122,9 +122,9 @@ controller.hears('start', 'direct_mention', function(bot, message) {
         return bot.reply(message, 'Already gathering requests for a run in' + runChannel);
     }
 
-    if (!runModel.getSummaryChannel()) {
+   /* if (!runModel.getSummaryChannel()) {
         runModel.setSummaryChannel(message.channel);
-    }
+    }*/
     runChannel = message.channel;
     
     //No other users on team
