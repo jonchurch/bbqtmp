@@ -7,6 +7,10 @@
  * Define a function for initiating a conversation on installation
  * With custom integrations, we don't have a way to find out who installed us, so we can't message them :(
  */
+var runHappening = false
+// ,   q = require('q')\
+//runModel = require('../model/runModel')
+
 
 function onInstallation(bot, installer) {
     if (installer) {
@@ -112,20 +116,77 @@ controller.hears('lunch run', 'direct_message, direct_mention', function(bot, me
     });
 });
 
+controller.hears('start', 'direct_mention', function(bot, message) {
 
-/**
- * AN example of what could be:
- * Any un-handled direct mention gets a reaction and a pat response!
- */
-//controller.on('direct_message,mention,direct_mention', function (bot, message) {
-//    bot.api.reactions.add({
-//        timestamp: message.ts,
-//        channel: message.channel,
-//        name: 'robot_face',
-//    }, function (err) {
-//        if (err) {
-//            console.log(err)
-//        }
-//        bot.reply(message, 'I heard you loud and clear boss.');
-//    });
-//});
+    if (runHappening) {
+        return bot.reply(message, 'Already gathering requests for a run in' + runChannel);
+    }
+
+    if (!runModel.getSummaryChannel()) {
+        runModel.setSummaryChannel(message.channel);
+    }
+    runChannel = message.channel;
+    
+    //No other users on team
+    /*if (usersModel.list().length === 0) {
+        return bot.reply(message, 'Looks like everyone is right here bud... Add some people to your team and we will talk.');
+    }*/
+
+    bot.reply(message, 'Holy La Croix!' + message.user + 'is going for a Pop-a-Top run. Who <@here> has a request? Tell me what you want and I will let them know!');
+    runHappening = true;
+
+    /*//notify first user and start a conversation
+    userIterator = usersModel.iterator();
+    currentUser = userIterator.next();
+    promptUser(bot);*/
+
+});
+
+controller.hears('end', 'direct_mention', function(bot, message) {
+    if (!runHappening) {
+        return.bot.reply(message, 'Nobody is on a run right now. Start a new run with `start`');
+    }
+
+    runHappening = false;
+
+    bot.reply(message, 'The run is now over!');
+
+    bot.startConversation(message, function(err,convo){
+        convo.ask('<@' + message.user + '> want to see the list?', [{
+            pattern: bot.utterances.yes,
+            callback: function(response, convo) {
+                bot.reply(runList);
+                // return summarizeRun(bot);
+                runList = [];
+            }
+        }, {
+            pattern: bot.utterances.no,
+            callback: function(response,convo) {
+                bot.say({channel: message.channel, text: 'Okey Dokey. That was fun, see you later!'});
+                runModel.clearStatuses();
+                convo.next();
+            }
+        }]);
+    });
+});
+
+controller.hears(*, 'direct_mention, direct_message', function(bot, message) {
+    if (runHappening) {
+        gatherRequest(bot,message);
+    }
+});
+
+function gatherRequest(bot, message) {
+    bot.reply('Got it! Thanks ' + message.user);
+    runList.push({user: message.user, request: message.text});
+    console.log('Pushing request to runList');
+
+   /* runModel.addRequest({
+        request: message.text,
+        user: message.user
+    });
+    */
+
+}
+
+
