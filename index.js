@@ -172,7 +172,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
 
 controller.hears('(.*)', 'direct_mention, direct_message', function(bot, message) {
     if (runHappening) {
-        gatherRequest(bot,message);
+        gatherRequest(bot, message);
     }
 });
 
