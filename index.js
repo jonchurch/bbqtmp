@@ -160,7 +160,6 @@ controller.hears('end', 'direct_mention', function(bot, message) {
             callback: function(response, convo) {
                 bot.reply(message, runList);
                 // return summarizeRun(bot);
-                runList = [];
             }
         }, {
             pattern: bot.utterances.no,
