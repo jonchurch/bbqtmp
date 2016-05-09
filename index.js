@@ -150,17 +150,25 @@ controller.hears('end', 'direct_mention', function(bot, message) {
     }
 
     runHappening = false;
+    console.log('runHappening = ' + runHappening);
+
+    console.log(runList);
+    runList = [];
 
     bot.reply(message, 'The run is now over!');
-    console.log('runHappening = ' + runHappening);
-    console.log(runList);
+
     bot.startConversation(message, function(err,convo){
         convo.ask('<@' + message.user + '> want to see the list?', [{
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
-                bot.reply(message, runList);
+                runListSummary = for (i = 0, i < runList.length, i++) {
+                    runListSummary.push(runList.i.user +' :' + runList.i.request);
+                }
+
+                bot.reply(message, 'Here is the list!' + runList);
                 // return summarizeRun(bot);
                 console.log('Heard yes, output runList');
+                console.log(runListSummary);
                 convo.next();
             }
         }, {
