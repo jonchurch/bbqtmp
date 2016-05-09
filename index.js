@@ -161,15 +161,10 @@ controller.hears('end', 'direct_mention', function(bot, message) {
         convo.ask('<@' + message.user + '> want to see the list?', [{
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
-                runListSummary = null;
-                 for (i = 0, i < runList.length, i++) {
-                    runListSummary.push(runList.i.user +' :' + runList.i.request);
-                }
-
-                bot.reply(message, 'Here is the list!' + runListSummary);
+                bot.reply(message, 'Woops! Where did it go? I just had it!');
                 // return summarizeRun(bot);
                 console.log('Heard yes, output runList');
-                console.log(runListSummary);
+                
                 convo.next();
             }
         }, {
