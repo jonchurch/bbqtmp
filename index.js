@@ -152,20 +152,23 @@ controller.hears('end', 'direct_mention', function(bot, message) {
     runHappening = false;
 
     bot.reply(message, 'The run is now over!');
-    console.log('runHappening =' + runHappening);
-
+    console.log('runHappening = ' + runHappening);
+    console.log(runList);
     bot.startConversation(message, function(err,convo){
         convo.ask('<@' + message.user + '> want to see the list?', [{
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
                 bot.reply(message, runList);
                 // return summarizeRun(bot);
+                console.log('Heard yes, output runList');
+                convo.next();
             }
         }, {
             pattern: bot.utterances.no,
             callback: function(response,convo) {
                 bot.say({channel: message.channel, text: 'Okey Dokey. That was fun, see you later!'});
-                runModel.clearStatuses();
+                // runModel.clearStatuses();
+                console.log('Heard no')
                 convo.next();
             }
         }]);
