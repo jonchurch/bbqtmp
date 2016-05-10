@@ -161,8 +161,8 @@ controller.hears('end', 'direct_mention', function(bot, message) {
         convo.ask('<@' + message.user + '> want to see the list?', [{
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
-                bot.reply(message, 'Woops! Where did it go? I just had it!');
-                bot.reply(message, 'Oh wait here it is!')
+                
+               
                 bot.reply({channel: message.channel, text: runList});
                 // return summarizeRun(bot);
                 console.log('Heard yes, output runList');
