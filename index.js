@@ -8,7 +8,7 @@
  * With custom integrations, we don't have a way to find out who installed us, so we can't message them :(
  */
 var runHappening = false;
-var runList = {};
+var runList = [];
 // ,   q = require('q')\
 //runModel = require('../model/runModel')
 
