@@ -161,12 +161,12 @@ controller.hears('end', 'direct_mention', function(bot, message) {
         convo.ask('<@' + message.user + '> want to see the list?', [{
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
+
+                listString = JSON.stringify(runList);
                 
-               
-                bot.reply({channel: message.channel, text: runList});
+                bot.reply(message, listString);
                 // return summarizeRun(bot);
-                console.log('Heard yes, output runList');
-                
+                console.log('Heard yes, output runList object')
                 convo.next();
             }
         }, {
