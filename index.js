@@ -191,7 +191,7 @@ controller.hears('(.*)', 'direct_mention, direct_message', function(bot, message
 function gatherRequest(bot, message) {
     console.log('===request = ' + message);
     bot.reply(message, 'Got it! Thanks ' + message.user);
-    runList.push({user: message.user, request: message.text});
+    runList.push(message.user + message.text);
     console.log('Pushing request to runList');
 
    /* runModel.addRequest({
