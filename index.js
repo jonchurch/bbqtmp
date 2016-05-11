@@ -163,10 +163,11 @@ controller.hears('end', 'direct_mention', function(bot, message) {
             callback: function(response, convo) {
 
                 listString = JSON.stringify(runList);
-                
+
                 bot.reply(message, listString);
                 // return summarizeRun(bot);
-                console.log('Heard yes, output runList object')
+                console.log('===Heard yes, output runList object');
+                console.log(listString);
                 convo.next();
             }
         }, {
