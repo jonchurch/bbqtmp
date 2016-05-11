@@ -152,7 +152,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
     runHappening = false;
     console.log('===runHappening = ' + runHappening);
 
-    console.log('===runList = 'runList);
+    console.log('===runList = ' + runList);
     runList = [];
 
     bot.reply(message, 'The run is now over!');
