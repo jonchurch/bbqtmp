@@ -133,7 +133,7 @@ controller.hears('start', 'direct_mention', function(bot, message) {
         return bot.reply(message, 'Looks like everyone is right here bud... Add some people to your team and we will talk.');
     }*/
 
-    bot.reply(message, 'Holy La Croix! <@' + message.user + '> is going for a Pop-a-Top run. Who <@here> has a request? Tell me what you want and I will let them know!');
+    bot.reply(message, 'Holy La Croix! <@' + message.user_name + '> is going for a Pop-a-Top run. Who <@here> has a request? Tell me what you want and I will let them know!');
     runHappening = true;
     console.log('===runHappening = ' + runHappening);
 
@@ -158,7 +158,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
     bot.reply(message, 'The run is now over!');
 
     bot.startConversation(message, function(err,convo){
-        convo.ask('<@' + message.user + '> want to see the list?', [{
+        convo.ask('<@' + message.user_name + '> want to see the list?', [{
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
                 console.log('====runList = ' + runList);
@@ -190,8 +190,8 @@ controller.hears('(.*)', 'direct_mention, direct_message', function(bot, message
 
 function gatherRequest(bot, message) {
     console.log('===request = ' + message);
-    bot.reply(message, 'Got it! Thanks ' + message.user);
-    runList.push(message.user + message.text);
+    bot.reply(message, 'Got it! Thanks ' + message.user_name);
+    runList.push(message.user_name + message.text);
     console.log('Pushing request to runList');
 
    /* runModel.addRequest({
