@@ -8,7 +8,7 @@
  * With custom integrations, we don't have a way to find out who installed us, so we can't message them :(
  */
 var runHappening = false
-,   runList = [];
+,   runList = {};
 // ,   q = require('q')\
 //runModel = require('../model/runModel')
 
@@ -135,7 +135,7 @@ controller.hears('start', 'direct_mention', function(bot, message) {
 
     bot.reply(message, 'Holy La Croix! <@' + message.user + '> is going for a Pop-a-Top run. Who <@here> has a request? Tell me what you want and I will let them know!');
     runHappening = true;
-    console.log('runHappening =' + runHappening);
+    console.log('===runHappening = ' + runHappening);
 
     /*//notify first user and start a conversation
     userIterator = usersModel.iterator();
@@ -150,9 +150,9 @@ controller.hears('end', 'direct_mention', function(bot, message) {
     }
 
     runHappening = false;
-    console.log('runHappening = ' + runHappening);
+    console.log('===runHappening = ' + runHappening);
 
-    console.log(runList);
+    console.log('===runList = 'runList);
     runList = [];
 
     bot.reply(message, 'The run is now over!');
@@ -161,7 +161,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
         convo.ask('<@' + message.user + '> want to see the list?', [{
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
-
+                console.log('====runList = ' runList);
                 listString = JSON.stringify(runList);
 
                 bot.reply(message, listString);
@@ -189,7 +189,7 @@ controller.hears('(.*)', 'direct_mention, direct_message', function(bot, message
 });
 
 function gatherRequest(bot, message) {
-    console.log(message);
+    console.log('===request = 'message);
     bot.reply(message, 'Got it! Thanks ' + message.user);
     runList.push({user: message.user, request: message.text});
     console.log('Pushing request to runList');
