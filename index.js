@@ -161,7 +161,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
         convo.ask('<@' + message.user + '> want to see the list?', [{
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
-                console.log('====runList = ' runList);
+                console.log('====runList = ' + runList);
                 listString = JSON.stringify(runList);
 
                 bot.reply(message, listString);
