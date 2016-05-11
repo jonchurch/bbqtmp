@@ -7,8 +7,8 @@
  * Define a function for initiating a conversation on installation
  * With custom integrations, we don't have a way to find out who installed us, so we can't message them :(
  */
-var runHappening = false
-,   runList = {};
+var runHappening = false;
+var runList = {};
 // ,   q = require('q')\
 //runModel = require('../model/runModel')
 
@@ -191,7 +191,7 @@ controller.hears('(.*)', 'direct_mention, direct_message', function(bot, message
 function gatherRequest(bot, message) {
     console.log('===request = ' + message);
     bot.reply(message, 'Got it! Thanks ' + message.user_name);
-    runList.push(message.user_name + message.text);
+    runList.push(message.user_name, message.text);
     console.log('Pushing request to runList');
 
    /* runModel.addRequest({
