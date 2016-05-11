@@ -95,9 +95,9 @@ controller.hears('hello', 'direct_message', function (bot, message) {
 });
 
 controller.hears('lunch run', 'direct_message, direct_mention', function(bot, message) {
-    
+
         bot.startConversation(message, function(err,convo) {
-            
+
             convo.say('Oooh! I LOVE Pop-a-Top!');
             convo.ask('Would you like me to see if anyone else wants something?', [{
                 pattern: bot.utterances.yes,
@@ -127,7 +127,7 @@ controller.hears('start', 'direct_mention', function(bot, message) {
         runModel.setSummaryChannel(message.channel);
     }*/
     runChannel = message.channel;
-    
+
     //No other users on team
     /*if (usersModel.list().length === 0) {
         return bot.reply(message, 'Looks like everyone is right here bud... Add some people to your team and we will talk.');
@@ -167,7 +167,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
                 bot.reply(message, listString);
                 // return summarizeRun(bot);
                 console.log('===Heard yes, output runList object');
-                console.log(listString);
+                console.log('===Output listString= ' + listString);
                 convo.next();
             }
         }, {
@@ -201,5 +201,3 @@ function gatherRequest(bot, message) {
     */
 
 }
-
-
