@@ -89,7 +89,7 @@ controller.hears('start', 'direct_mention', function(bot, message) {
 controller.hears('echo', 'direct_mention' function(bot, messsage) {
     bot.reply(message, '...echo');
     console.log('========Message ' + message);
-})
+});
 
 controller.hears('end', 'direct_mention', function(bot, message) {
     if (!runHappening) {
