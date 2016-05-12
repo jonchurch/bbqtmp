@@ -78,15 +78,9 @@ controller.hears('start', 'direct_mention', function(bot, message) {
     bot.reply(message, 'Holy La Croix! <@' + message.user_name + '> is going for a Pop-a-Top run. Who <@here> has a request? Tell me what you want and I will let them know!');
     runHappening = true;
     console.log('===runHappening = ' + runHappening);
-
-    /*//notify first user and start a conversation
-    userIterator = usersModel.iterator();
-    currentUser = userIterator.next();
-    promptUser(bot);*/
-
 });
 
-controller.hears('echo', 'direct_mention' function(bot, messsage) {
+controller.hears('echo', 'direct_mention', function(bot, messsage) {
     bot.reply(message, '...echo');
     console.log('========Message ' + message);
 });
