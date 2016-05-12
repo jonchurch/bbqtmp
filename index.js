@@ -106,7 +106,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
 
                 for (var i = 0; i < runList.length; i++) {
                   listString = (message.user_name + ': ' + runList[i].requests.join(', '));
-                    bot.reply(message, (listString);
+                    bot.reply(message, (listString));
                 }
 
                 console.log('===Heard yes, output runList object');
