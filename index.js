@@ -145,7 +145,7 @@ function gatherRequest(bot, message) {
         runList[i].requests.push(message.text);
       }
       else {
-        runList.push({user_name: message.user_name, requests = [message.text]});
+        runList.push({user_name: message.user_name, requests: [message.text]});
       }
     }};
 
