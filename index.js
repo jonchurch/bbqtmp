@@ -104,7 +104,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
             callback: function(response, convo) {
                 console.log('====runList = ' + runList);
 
-                for (var i = 0; i < runList.length) {
+                for (var i = 0; i < runList.length; i++) {
                   listString = (message.user_name + ': ' + runList[i].requests.join(', ');
                     bot.reply(message, (listString);
                 }
