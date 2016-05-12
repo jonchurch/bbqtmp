@@ -1,33 +1,4 @@
 /**
- * A Bot for Slack!
- */
-
-
-/**
- * Define a function for initiating a conversation on installation
- * With custom integrations, we don't have a way to find out who installed us, so we can't message them :(
- */
-var runHappening = false;
-var runList = [];
-// ,   q = require('q')\
-//runModel = require('../model/runModel')
-
-
-function onInstallation(bot, installer) {
-    if (installer) {
-        bot.startPrivateConversation({user: installer}, function (err, convo) {
-            if (err) {
-                console.log(err);
-            } else {
-                convo.say('I am a bot that has just joined your team');
-                convo.say('You must now /invite me to a channel so that I can be of use!');
-            }
-        });
-    }
-}
-
-
-/**
  * Configure the persistence options
  */
 
@@ -85,6 +56,9 @@ controller.on('rtm_close', function (bot) {
  * Core bot logic goes here!
  */
 // BEGIN EDITING HERE!
+var runHappening = false;
+var runList = [];
+
 
 controller.on('bot_channel_join', function (bot, message) {
     bot.reply(message, "I'm here!")
@@ -94,44 +68,12 @@ controller.hears('hello', 'direct_message', function (bot, message) {
     bot.reply(message, 'Hello!');
 });
 
-controller.hears('lunch run', 'direct_message, direct_mention', function(bot, message) {
-
-        bot.startConversation(message, function(err,convo) {
-
-            convo.say('Oooh! I LOVE Pop-a-Top!');
-            convo.ask('Would you like me to see if anyone else wants something?', [{
-                pattern: bot.utterances.yes,
-                callback: function(response, convo){
-                    convo.say('Okay! What a sweetheart you are. :heart:');
-                    convo.next();
-                }
-            },
-            {
-                pattern: bot.utterances.no,
-                callback: function(response, convo){
-                    convo.say('Alright! Well thanks for letting me know. :grin:');
-                    convo.next();
-                }
-            }
-        ]);
-    });
-});
 
 controller.hears('start', 'direct_mention', function(bot, message) {
 
     if (runHappening) {
         return bot.reply(message, 'Already gathering requests for a run in' + runChannel);
     }
-
-   /* if (!runModel.getSummaryChannel()) {
-        runModel.setSummaryChannel(message.channel);
-    }*/
-    runChannel = message.channel;
-
-    //No other users on team
-    /*if (usersModel.list().length === 0) {
-        return bot.reply(message, 'Looks like everyone is right here bud... Add some people to your team and we will talk.');
-    }*/
 
     bot.reply(message, 'Holy La Croix! <@' + message.user_name + '> is going for a Pop-a-Top run. Who <@here> has a request? Tell me what you want and I will let them know!');
     runHappening = true;
@@ -153,7 +95,6 @@ controller.hears('end', 'direct_mention', function(bot, message) {
     console.log('===runHappening = ' + runHappening);
 
     console.log('===runList = ' + runList);
-    runList = [];
 
     bot.reply(message, 'The run is now over!');
 
@@ -162,10 +103,12 @@ controller.hears('end', 'direct_mention', function(bot, message) {
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
                 console.log('====runList = ' + runList);
-                listString = JSON.stringify(runList);
 
-                bot.reply(message, listString);
-                // return summarizeRun(bot);
+                for (var i = 0; i < runList.length) {
+                  listString = (message.user_name + ': ' + runList[i].requests.join(', ');
+                    bot.reply(message, (listString);
+                }
+
                 console.log('===Heard yes, output runList object');
                 console.log('===Output listString= ' + listString);
                 convo.next();
@@ -182,6 +125,10 @@ controller.hears('end', 'direct_mention', function(bot, message) {
     });
 });
 
+/*runList = [
+  {user_name: 'Em', requests: ['pamp mouse']}
+]
+*/
 controller.hears('(.*)', 'direct_mention, direct_message', function(bot, message) {
     if (runHappening) {
         gatherRequest(bot, message);
@@ -191,8 +138,18 @@ controller.hears('(.*)', 'direct_mention, direct_message', function(bot, message
 function gatherRequest(bot, message) {
     console.log('===request = ' + message);
     bot.reply(message, 'Got it! Thanks ' + message.user_name);
-    runList.push(message.user_name, message.text);
-    console.log('Pushing request to runList');
+    addDesire(message);
+    function addDesire(message){
+      for (var i = 0; i < runList.length; i++) {
+      if (runList[i].user_name === message.user_name) {
+        runList[i].requests.push(message.text);
+      }
+      else {
+        runList.push({user_name: message.user_name, requests = [message.text]};)
+      }
+    }};
+
+    console.log('===Pushing request to runList');
 
    /* runModel.addRequest({
         request: message.text,
