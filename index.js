@@ -22,7 +22,7 @@ if (process.env.TOKEN || process.env.SLACK_TOKEN) {
     //Treat this as a custom integration
     var customIntegration = require('./lib/custom_integrations');
     var token = (process.env.TOKEN) ? process.env.TOKEN : process.env.SLACK_TOKEN;
-    var controller = customIntegration.configure(token, config);
+    var controller = customIntegration.configure(token, config,);
 } else if (process.env.CLIENT_ID && process.env.CLIENT_SECRET && process.env.PORT) {
     //Treat this as an app
     var app = require('./lib/apps');
@@ -85,6 +85,11 @@ controller.hears('start', 'direct_mention', function(bot, message) {
     promptUser(bot);*/
 
 });
+
+controller.hears('echo', 'direct_mention' function(bot, messsage) {
+    bot.reply(message, '...echo');
+    console.log('========Message \n' + message);
+})
 
 controller.hears('end', 'direct_mention', function(bot, message) {
     if (!runHappening) {
