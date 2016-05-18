@@ -75,7 +75,7 @@ controller.hears('start', 'direct_mention', function(bot, message) {
         return bot.reply(message, 'Already gathering requests for a run in' + runChannel);
     }
 
-    bot.reply(message, 'Holy La Croix! <@' + message.user_name + '> is going for a Pop-a-Top run. Who @here has a request? Tell me what you want and I will let them know!');
+    bot.reply(message, 'Holy La Croix! <@' + message.user_name + '> is going for a Pop-a-Top run. Who  <@here> has a request? Tell me what you want and I will let them know!');
     runHappening = true;
     console.log('===runHappening = ' + runHappening);
 });
@@ -103,8 +103,12 @@ controller.hears('end', 'direct_mention', function(bot, message) {
             callback: function(response, convo) {
                 console.log('====runList = ' + runList);
 
+                //Initialize empty listString array
+                var listString = [] 
+
+                //Loop through runList and convert entries into strings
                 for (var i = 0; i < runList.length; i++) {
-                  listString = (message.user_name + ': ' + runList[i].requests.join(', '));
+                  listString = {message.user_name + ': ' + runList[i].requests.join(', ')}
                     bot.reply(message, (listString));
                 }
 
