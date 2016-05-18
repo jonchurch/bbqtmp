@@ -169,10 +169,11 @@ function gatherRequest(bot, message) {
 
         //Create a variable pushy to hold the object we are going to push into runList
         var pushy = {username: message.username, requests: [message.text]};
+        console.log(pushy);
         runList.push(pushy);
       }
     }};
-    console.log(pushy);
+
     console.log('===Pushing request to runList');
 
    /* runModel.addRequest({
