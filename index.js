@@ -152,9 +152,16 @@ controller.hears('(.*)', 'direct_mention, direct_message', function(bot, message
 
 function gatherRequest(bot, message) {
     console.log('===request = ' + message.text);
-    bot.reply(message, 'Got it! Thanks ' + message.user);
+    bot.reply(message, 'Got it! Thanks <@' + message.user + '>');
     addDesire(message);
     function addDesire(message){
+        if (var === []) {
+            var pushy = {user: message.user, requests: [message.text]};
+        console.log(pushy);
+        runList.push(pushy);
+        console.log('===addDesire: runlist = [] so add first entry');
+        console.log(runList[0]);
+        } 
       for (var i = 0; i < runList.length; i++) {
 
     //Check if the current user already has an entry in runList under their user
