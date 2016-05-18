@@ -155,7 +155,7 @@ function gatherRequest(bot, message) {
     bot.reply(message, 'Got it! Thanks <@' + message.user + '>');
     addDesire(message);
     function addDesire(message){
-        if (var === []) {
+        if (runList === []) {
             var pushy = {user: message.user, requests: [message.text]};
         console.log(pushy);
         runList.push(pushy);
