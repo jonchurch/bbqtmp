@@ -115,7 +115,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
                 for (var i = 0; i < runList.length; i++) {
 
                     //Create a variable that contains the object to push into 
-                    var x = {'username: ' + message.username + 'requests: ' + runList[i].requests.join(', ')};
+                    var x = {username: message.username, requests: runList[i].requests.join(', ')};
 
                     //Use .push() to add anything to an array
                   listString.push(x);
