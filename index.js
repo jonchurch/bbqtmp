@@ -95,7 +95,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
     runHappening = false;
     console.log('===runHappening = ' + runHappening);
     str = JSON.stringify(runList);
-    console.log('===runList = ' + str);
+    console.log('===runList = ' + runList);
 
     bot.reply(message, 'The run is now over!');
 
@@ -103,7 +103,8 @@ controller.hears('end', 'direct_mention', function(bot, message) {
         convo.ask('<@' + message.username + '> want to see the list?', [{
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
-                console.log('====runList = ' + runList);
+                console.log('====runList = '); 
+                console.log(runList);
 
                 //Initialize empty listString array
                 var listString = [];
