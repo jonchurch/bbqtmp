@@ -94,8 +94,8 @@ controller.hears('end', 'direct_mention', function(bot, message) {
 
     runHappening = false;
     console.log('===runHappening = ' + runHappening);
-
-    console.log('===runList = ' + runList);
+    str = JSON.stringify(runList);
+    console.log('===runList = ' + str);
 
     bot.reply(message, 'The run is now over!');
 
