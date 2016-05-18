@@ -75,7 +75,7 @@ controller.hears('start', 'direct_mention', function(bot, message) {
         return bot.reply(message, 'Already gathering requests for a run in' + runChannel);
     }
 
-    bot.reply(message, 'Holy La Croix! <@' + message.username + '> is going for a Pop-a-Top run. Who  <@here> has a request? Tell me what you want and I will let them know!');
+    bot.reply(message, 'Holy La Croix! <@' + message.user + '> is going for a Pop-a-Top run. Who  <@here> has a request? Tell me what you want and I will let them know!');
     runHappening = true;
     console.log('===runHappening = ' + runHappening);
     console.log(message);
@@ -101,7 +101,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
     bot.reply(message, 'The run is now over!');
 
     bot.startConversation(message, function(err,convo){
-        convo.ask('<@' + message.username + '> want to see the list?', [{
+        convo.ask('<@' + message.user + '> want to see the list?', [{
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
                 console.log('====runList = '); 
@@ -117,7 +117,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
                 for (var i = 0; i < runList.length; i++) {
 
                     //Create a variable that contains the object to push into 
-                    var x = {username: message.username, requests: runList[i].requests.join(', ')};
+                    var x = {user: message.user, requests: runList[i].requests.join(', ')};
 
                     //Use .push() to add anything to an array
                   listString.push(x);
@@ -141,7 +141,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
 });
 
 /*runList = [
-  {username: 'Em', requests: ['pamp mouse']}
+  {user: 'Em', requests: ['pamp mouse']}
 ]
 */
 controller.hears('(.*)', 'direct_mention, direct_message', function(bot, message) {
@@ -152,24 +152,24 @@ controller.hears('(.*)', 'direct_mention, direct_message', function(bot, message
 
 function gatherRequest(bot, message) {
     console.log('===request = ' + message.text);
-    bot.reply(message, 'Got it! Thanks ' + message.username);
+    bot.reply(message, 'Got it! Thanks ' + message.user);
     addDesire(message);
     function addDesire(message){
       for (var i = 0; i < runList.length; i++) {
 
-    //Check if the current user already has an entry in runList under their username
-      if (runList[i].username === message.username) {
+    //Check if the current user already has an entry in runList under their user
+      if (runList[i].user === message.user) {
 
         //If so, .push() the text of their message into the requests array
         runList[i].requests.push(message.text);
-        console.log('===addDesire: user already exists in runList! Pushing their request into the requests array for their username');
+        console.log('===addDesire: user already exists in runList! Pushing their request into the requests array for their user');
       }
 
-      //If not, .push() a new Object into runList with their username and request
+      //If not, .push() a new Object into runList with their user and request
       else {
 
         //Create a variable pushy to hold the object we are going to push into runList
-        var pushy = {username: message.username, requests: [message.text]};
+        var pushy = {user: message.user, requests: [message.text]};
         console.log(pushy);
         runList.push(pushy);
       }
