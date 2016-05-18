@@ -154,6 +154,17 @@ function gatherRequest(bot, message) {
     console.log('===request = ' + message.text);
     bot.reply(message, 'Got it! Thanks <@' + message.user + '>');
     addDesire(message);
+
+    console.log('===Pushing request to runList');
+
+   /* runModel.addRequest({
+        request: message.text,
+        user: message.user
+    });
+    */
+
+};
+
     function addDesire(message){
         if (runList === []) {
             var pushy = {user: message.user, requests: [message.text]};
@@ -161,7 +172,8 @@ function gatherRequest(bot, message) {
         runList.push(pushy);
         console.log('===addDesire: runlist = [] so add first entry');
         console.log(runList[0]);
-        } 
+        }
+         
       for (var i = 0; i < runList.length; i++) {
 
     //Check if the current user already has an entry in runList under their user
@@ -180,14 +192,4 @@ function gatherRequest(bot, message) {
         console.log(pushy);
         runList.push(pushy);
       }
-    }};
-
-    console.log('===Pushing request to runList');
-
-   /* runModel.addRequest({
-        request: message.text,
-        user: message.user
-    });
-    */
-
-}
+    }}
