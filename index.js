@@ -172,7 +172,7 @@ function gatherRequest(bot, message) {
         runList.push(pushy);
       }
     }};
-
+    console.log(pushy);
     console.log('===Pushing request to runList');
 
    /* runModel.addRequest({
