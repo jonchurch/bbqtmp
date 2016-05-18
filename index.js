@@ -57,7 +57,7 @@ controller.on('rtm_close', function (bot) {
  */
 // BEGIN EDITING HERE!
 var runHappening = false;
-var runList = [];
+//var runList = [];
 
 
 controller.on('bot_channel_join', function (bot, message) {
