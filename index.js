@@ -75,7 +75,7 @@ controller.hears('start', 'direct_mention', function(bot, message) {
         return bot.reply(message, 'Already gathering requests for a run in' + runChannel);
     }
 
-    bot.reply(message, 'Holy La Croix! <@' + message.user_name + '> is going for a Pop-a-Top run. Who  <@here> has a request? Tell me what you want and I will let them know!');
+    bot.reply(message, 'Holy La Croix! <@' + message.username + '> is going for a Pop-a-Top run. Who  <@here> has a request? Tell me what you want and I will let them know!');
     runHappening = true;
     console.log('===runHappening = ' + runHappening);
 });
@@ -85,6 +85,8 @@ controller.hears('echo', 'direct_mention', function(bot, messsage) {
     console.log('========Message ' + message);
 });
 
+//When the run is ended, collect runList into a string format, return it to user that owns the run
+//TODO: Add metadata to the runList array containing owner, channel, etc.
 controller.hears('end', 'direct_mention', function(bot, message) {
     if (!runHappening) {
         return bot.reply(message, 'Nobody is on a run right now. Start a new run with `start`');
@@ -98,17 +100,25 @@ controller.hears('end', 'direct_mention', function(bot, message) {
     bot.reply(message, 'The run is now over!');
 
     bot.startConversation(message, function(err,convo){
-        convo.ask('<@' + message.user_name + '> want to see the list?', [{
+        convo.ask('<@' + message.username + '> want to see the list?', [{
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
                 console.log('====runList = ' + runList);
 
                 //Initialize empty listString array
-                var listString = [] 
+                var listString = [];
+
+//////////////// I'm confused here now. What I want to do is take all the entries in runList and get them ready to be spat out at the run owner in the format NAME1: request1, request2, request3 **NEWLINE** NAME2: request1, request2
+//////////////// Ultimately I need one string that has the results parsed into a single string, complete with escaped linebreaks to pass to bot.say
 
                 //Loop through runList and convert entries into strings
                 for (var i = 0; i < runList.length; i++) {
-                  listString = {message.user_name + ': ' + runList[i].requests.join(', ')}
+
+                    //Create a variable that contains the object to push into 
+                    var x = {'username: ' + message.username + 'requests: ' + runList[i].requests.join(', ')};
+
+                    //Use .push() to add anything to an array
+                  listString.push(x);
                     bot.reply(message, (listString));
                 }
 
@@ -129,7 +139,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
 });
 
 /*runList = [
-  {user_name: 'Em', requests: ['pamp mouse']}
+  {username: 'Em', requests: ['pamp mouse']}
 ]
 */
 controller.hears('(.*)', 'direct_mention, direct_message', function(bot, message) {
@@ -139,16 +149,26 @@ controller.hears('(.*)', 'direct_mention, direct_message', function(bot, message
 });
 
 function gatherRequest(bot, message) {
-    console.log('===request = ' + message);
-    bot.reply(message, 'Got it! Thanks ' + message.user_name);
+    console.log('===request = ' + message.text);
+    bot.reply(message, 'Got it! Thanks ' + message.username);
     addDesire(message);
     function addDesire(message){
       for (var i = 0; i < runList.length; i++) {
-      if (runList[i].user_name === message.user_name) {
+
+    //Check if the current user already has an entry in runList under their username
+      if (runList[i].username === message.username) {
+
+        //If so, .push() the text of their message into the requests array
         runList[i].requests.push(message.text);
+        console.log('===addDesire: user already exists in runList! Pushing their request into the requests array for their username');
       }
+
+      //If not, .push() a new Object into runList with their username and request
       else {
-        runList.push({user_name: message.user_name, requests: [message.text]});
+
+        //Create a variable pushy to hold the object we are going to push into runList
+        var pushy = {username: message.username, requests: [message.text]};
+        runList.push(pushy);
       }
     }};
 
