@@ -114,7 +114,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
 //////////////// Ultimately I need one string that has the results parsed into a single string, complete with escaped linebreaks to pass to bot.say
 
                 if (!listString[0]) {
-                    bot.say(convo, 'I have no requests for you at this time!')
+                    bot.say({channel: message.channel, text: 'I have no requests for you at this time!'})
                     convo.next();
                 }
                 
