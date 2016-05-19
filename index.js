@@ -113,7 +113,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
 //////////////// I'm confused here now. What I want to do is take all the entries in runList and get them ready to be spat out at the run owner in the format NAME1: request1, request2, request3 **NEWLINE** NAME2: request1, request2
 //////////////// Ultimately I need one string that has the results parsed into a single string, complete with escaped linebreaks to pass to bot.say
 
-                if (!runString[0]) {
+                if (!listString[0]) {
                     bot.say(convo, 'I have no requests for you at this time!')
                     convo.next();
                 }
