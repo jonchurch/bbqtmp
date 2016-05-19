@@ -110,6 +110,9 @@ controller.hears('end', 'direct_mention', function(bot, message) {
                 //Initialize empty listString array
                 var listString = [];
 
+/////////////// ******** TESTING ONLY REMOVE THIS ********* 
+                        runList[0] = {user: 'Yogi', requests: ['love', 'pats', 'dookie']};
+
 //////////////// I'm confused here now. What I want to do is take all the entries in runList and get them ready to be spat out at the run owner in the format NAME1: request1, request2, request3 **NEWLINE** NAME2: request1, request2
 //////////////// Ultimately I need one string that has the results parsed into a single string, complete with escaped linebreaks to pass to bot.say
 
