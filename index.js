@@ -105,13 +105,13 @@ controller.hears('end', 'direct_mention', function(bot, message) {
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
                 console.log('====runList = '); 
-                console.log(runList[0]);
+                console.log(runList);
 
                 //Initialize empty listString array
                 var listString = [];
 
 /////////////// ******** TESTING ONLY REMOVE THIS ********* 
-                        runList[0] = {user: 'Yogi', requests: ['love', 'pats', 'dookie']};
+                        runList.push({user: 'Yogi', requests: ['love', 'pats', 'dookie']});
 
 //////////////// I'm confused here now. What I want to do is take all the entries in runList and get them ready to be spat out at the run owner in the format NAME1: request1, request2, request3 **NEWLINE** NAME2: request1, request2
 //////////////// Ultimately I need one string that has the results parsed into a single string, complete with escaped linebreaks to pass to bot.say
@@ -129,10 +129,9 @@ controller.hears('end', 'direct_mention', function(bot, message) {
 
                     //Use .push() to add anything to an array
                   listString.push(x);
-                  listFormatted = listString.join('\n');
                   
                 }
-
+                listFormatted = listString.join('\n');
                 console.log('===Heard yes, output runList object ', runList);
                 console.log('===Output listFormatted= ' + listFormatted);
                 bot.say({channel: message.channel, text: listFormatted})
