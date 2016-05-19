@@ -161,6 +161,7 @@ function addDesire(message){
         runList.push(pushy);
         console.log('===addDesire: !runlist[0] so add first entry');
         console.log(runList[0]);
+        return;
         }
          
       for (var i = 0; i < runList.length; i++) {
