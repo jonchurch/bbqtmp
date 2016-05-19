@@ -122,11 +122,13 @@ controller.hears('end', 'direct_mention', function(bot, message) {
                 for (var i = 0; i < runList.length; i++) {
 
                     //Create a variable that contains the object to push into 
-                    var x = {user: message.user, requests: runList[i].requests.join(', ')};
+                    var x = runList[i].user +': ' + runList[i].requests.join(', ');
 
                     //Use .push() to add anything to an array
                   listString.push(x);
-                    bot.reply(message, (listString));
+                  listFormatted = listString.join('\n');
+                  bot.say({channel: message.channel, text: listFormatted})
+                  convo.next();
                 }
 
                 console.log('===Heard yes, output runList object');
