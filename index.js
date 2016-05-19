@@ -131,7 +131,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
                   listString.push(x);
                   listFormatted = listString.join('\n');
                   bot.say({channel: message.channel, text: listFormatted})
-                  convo.next();
+                  
                 }
 
                 console.log('===Heard yes, output runList object');
