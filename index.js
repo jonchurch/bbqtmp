@@ -130,12 +130,12 @@ controller.hears('end', 'direct_mention', function(bot, message) {
                     //Use .push() to add anything to an array
                   listString.push(x);
                   listFormatted = listString.join('\n');
-                  bot.say({channel: message.channel, text: listFormatted})
                   
                 }
 
-                console.log('===Heard yes, output runList object');
-                console.log('===Output listString= ' + listString);
+                console.log('===Heard yes, output runList object ', runList);
+                console.log('===Output listFormatted= ' + listFormatted);
+                bot.say({channel: message.channel, text: listFormatted})
                 convo.next();
             }
         }, {
