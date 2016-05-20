@@ -92,35 +92,22 @@ controller.hears('end', 'direct_mention', function(bot, message) {
     if (!runHappening) {
         return bot.reply(message, 'Nobody is on a run right now. Start a new run with `start`');
     }
-
     runHappening = false;
-    console.log('===runHappening = ' + runHappening);
     str = JSON.stringify(runList[0]);
-    console.log('===runList = ' + str);
-
     bot.reply(message, 'The run is now over!');
 
     bot.startConversation(message, function(err,convo){
         convo.ask('<@' + message.user + '> want to see the list?', [{
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
-                console.log('====runList = '); 
-                console.log(runList);
-
-                //Initialize empty listString array
-                var listString = [];
-
-/////////////// ******** TESTING ONLY REMOVE  vvvvTHISvvv ********* 
-                        runList.push({user: 'Yogi', requests: ['love', 'pats', 'dookie']});
-
-//////////////// I'm confused here now. What I want to do is take all the entries in runList and get them ready to be spat out at the run owner in the format NAME1: request1, request2, request3 **NEWLINE** NAME2: request1, request2
-//////////////// Ultimately I need one string that has the results parsed into a single string, complete with escaped linebreaks to pass to bot.say
-
                 if (!runList[0]) {
                     bot.say({channel: message.channel, text: 'I have no requests for you at this time!'})
-                    convo.next();
-                }
-                
+                    convo.next(); }
+
+                /*
+                * This looks messy! Should be tidied up and maybe functionalized
+                */
+                var listString = [];
                 //Loop through runList and convert entries into strings
                 for (var i = 0; i < runList.length; i++) {
 
@@ -130,14 +117,13 @@ controller.hears('end', 'direct_mention', function(bot, message) {
                     //Use .push() to add anything to an array
                   listString.push(x);
                   
-                }
                 listFormatted = listString.join('\n');
-                console.log('===Heard yes, output runList object ', runList);
-                console.log('===Output listFormatted= ' + listFormatted);
-                bot.say({channel: message.channel, text: listFormatted})
+                return listFormatted;
+            }}
+                bot.say({channel: message.channel, text: listFormatted});
                 convo.next();
-            }
-        }, {
+            },
+             {
             pattern: bot.utterances.no,
             callback: function(response,convo) {
                 bot.say({channel: message.channel, text: 'Okey Dokey. That was fun, see you later!'});
@@ -147,8 +133,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
             }
         }]);
     });
-});
-
+;
 /*runList = [
   {user: 'Em', requests: ['pamp mouse']}
 ]
@@ -163,13 +148,12 @@ function gatherRequest(bot, message) {
     console.log('===request = ' + message.text);
     bot.reply(message, 'Got it! Thanks <@' + message.user + '>');
     addDesire(message);
+
 function addDesire(message){
         if (!runList[0]) {
-            var pushy = {user: message.user, requests: [message.text]};
-        console.log(pushy);
+        var pushy = {user: message.user, requests: [message.text]};
         runList.push(pushy);
         console.log('===addDesire: !runlist[0] so add first entry');
-        console.log(runList[0]);
         return;
         }
          
@@ -193,6 +177,10 @@ function addDesire(message){
       }
     }}
     console.log('===Pushing request to runList');
+};
+
+
+
 
    /* runModel.addRequest({
         request: message.text,
@@ -200,5 +188,5 @@ function addDesire(message){
     });
     */
 
-};
+
 
