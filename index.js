@@ -131,7 +131,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
                 convo.next();
             }
         }]);
-    }});};
+    });})
 ;
 /*runList = [
   {user: 'Em', requests: ['pamp mouse']}
@@ -176,7 +176,7 @@ function addDesire(message){
       }
     }}
     console.log('===Pushing request to runList');
-};
+}
 
 
 
