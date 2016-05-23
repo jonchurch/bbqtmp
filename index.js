@@ -61,7 +61,7 @@ var runList = [];
 
 
 controller.on('bot_channel_join', function (bot, message) {
-    bot.reply(message, "I'm here!")
+    bot.reply(message, "I'm here!");
 });
 
 controller.hears('hello', 'direct_message', function (bot, message) {
@@ -101,7 +101,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
             pattern: bot.utterances.yes,
             callback: function(response, convo) {
                 if (!runList[0]) {
-                    bot.say({channel: message.channel, text: 'I have no requests for you at this time!'})
+                    bot.say({channel: message.channel, text: 'I have no requests for you at this time!'});
                     convo.next(); }
 
                 /*
@@ -110,18 +110,16 @@ controller.hears('end', 'direct_mention', function(bot, message) {
                 var listString = [];
                 //Loop through runList and convert entries into strings
                 for (var i = 0; i < runList.length; i++) {
-
                     //Create a variable that contains the object to push into 
                     var x = runList[i].user +': ' + runList[i].requests.join(', ');
-
-                    //Use .push() to add anything to an array
+                    //Use .push() to add each object anything to an array
                   listString.push(x);
-                  
+            }
                 listFormatted = listString.join('\n');
-                
                  bot.say({channel: message.channel, text: listFormatted});
                 convo.next();
-            }}
+            }
+            ///^^End^^ of callback function triggered by bot.utterances.yes
                
             },
              {
@@ -129,11 +127,11 @@ controller.hears('end', 'direct_mention', function(bot, message) {
             callback: function(response,convo) {
                 bot.say({channel: message.channel, text: 'Okey Dokey. That was fun, see you later!'});
                 // runModel.clearStatuses();
-                console.log('Heard no')
+                console.log('Heard no');
                 convo.next();
             }
         }]);
-    });
+    }});};
 ;
 /*runList = [
   {user: 'Em', requests: ['pamp mouse']}
