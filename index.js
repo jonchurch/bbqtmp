@@ -26,7 +26,7 @@ if (process.env.TOKEN || process.env.SLACK_TOKEN) {
 } else if (process.env.CLIENT_ID && process.env.CLIENT_SECRET && process.env.PORT) {
     //Treat this as an app
     var app = require('./lib/apps');
-    var controller = app.configure(process.env.PORT, process.env.CLIENT_ID, process.env.CLIENT_SECRET, config, onInstallation);
+    var controller = app.configure(process.env.PORT, process.env.CLIENT_ID, process.env.CLIENT_SECRET, config);
 } else {
     console.log('Error: If this is a custom integration, please specify TOKEN in the environment. If this is an app, please specify CLIENTID, CLIENTSECRET, and PORT in the environment');
     process.exit(1);
@@ -111,7 +111,7 @@ controller.hears('end', 'direct_mention', function(bot, message) {
                 //Loop through runList and convert entries into strings
                 for (var i = 0; i < runList.length; i++) {
                     //Create a variable that contains the object to push into 
-                    var x = runList[i].user +': ' + runList[i].requests.join(', ');
+                    var x = '<@' + runList[i].user + '>' + ': ' + runList[i].requests.join(', ');
                     //Use .push() to add each object anything to an array
                   listString.push(x);
             }
