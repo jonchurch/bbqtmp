@@ -81,10 +81,6 @@ controller.hears('start', 'direct_mention', function(bot, message) {
     console.log(message);
 });
 
-controller.hears('echo', 'direct_mention', function(bot, messsage) {
-    bot.reply(message, '...echo');
-    console.log('========Message ' + message);
-});
 
 //When the run is ended, collect runList into a string format, return it to user that owns the run
 //TODO: Add metadata to the runList array containing owner, channel, etc.
@@ -187,5 +183,32 @@ function addDesire(message){
     });
     */
 
+/*
+*
+* Slash Commands!
+*
+*/
 
+controller.on('slash_command', function (slashCommand, message) {
+    switch(message.command) {
+        case '/echo': //handle the echo slash command. 
+            //If there is no text following the command, treat it as a help request to the command
+            //Otherwise echo back what was sent
+            //First check verification token, to make sure the request is coming from slack
+            if (message.token != process.env.VERIFICATION_TOKEN) return; //ignores a false request
 
+            //if no text supplied, treat it as help command
+            if (message.text === "" || message.text === 'help') {
+                slashCommand.replyPrivate(message,
+                    'I echo back what you tell me. ' +
+                    'Try typing \'echo pizza\' to see.');
+                return;
+            }
+            //if we made it here, echo what user said
+            slashCommand.replyPublic(message, 'Echo: ' + message.text);
+        break;
+            
+        default:
+        slashCommand.replyPublic(message, 'I\'m sorry <@' + message.user + '>. I can\'t do that');
+
+    }});
