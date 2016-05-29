@@ -69,17 +69,6 @@ controller.hears('hello', 'direct_message', function (bot, message) {
 });
 
 
-controller.hears('start', 'direct_mention', function(bot, message) {
-
-    if (runHappening) {
-        return bot.reply(message, 'Already gathering requests for a run in' + runChannel);
-    }
-
-    bot.reply(message, 'Holy La Croix! <@' + message.user + '> is going for a Pop-a-Top run. Who  <@here> has a request? Tell me what you want and I will let them know!');
-    runHappening = true;
-    console.log('===runHappening = ' + runHappening);
-    console.log(message);
-});
 
 
 //When the run is ended, collect runList into a string format, return it to user that owns the run
@@ -166,7 +155,7 @@ function addDesire(message){
       else {
 
         //Create a variable pushy to hold the object we are going to push into runList
-        var pushy = {user: message.user, requests: [message.text]};
+       var pushy = {user: message.user, requests: [message.text]};
         console.log(pushy);
         runList.push(pushy);
       }
@@ -207,7 +196,54 @@ controller.on('slash_command', function (slashCommand, message) {
             //if we made it here, echo what user said
             slashCommand.replyPublic(message, 'Echo: ' + message.text);
         break;
+        
+        case '/lunchrun': //handle /lunchrun slash command
+
+            if (message.token != process.env.VERIFICATION_TOKEN) return; //ignore a request that isn't from a verified source
+
+            if (message.text === '' || message.text === 'help') {
+                slashCommand.replyPrivate(message,
+                    'Ask everyone online if they need anything from the store, win friends and favors!');
+                return;
+            }
+            ///ADD IN THE ACTUAL BOT LOGIC HERE!
+            if (message.text === 'start') {
+
+            if (runHappening) {
+             slashCommand.replyPrivate(message, '<@' + runOwner + '> is already gathering requests for a run. Message <@lunchbot2> to add to the list in progress.');
+             return;
+            }
+
+            slashCommand.replyPublic(message, 'Hey <!here>! <@' + message.user + '> and I are going on a Pop-a-Top run! \n Now taking requests via direct message or mentions in this channel.');
+            runHappening = true;
+            runOwner = message.user;
             
+            console.log('===runHappening = ' + runHappening);
+                ///Need to private message all users online && in channel #food 
+                ///if user.presence.online === true && user.in.channel.food === true
+                ///private.message(user, '@runOwner is going to Pop-a-Top, message me what you'd like, or respond \'pass\'')
+       
+         /* var userList = []
+            ,activeUsers = [];
+
+          slashCommand.api.users.list({presence: 1}, function (err, res){
+               for (i = 0; i < res.members.length; i++) {
+                    if (res.members[i].presence === 'active') {
+
+                        activeUsers.push(res.members[i].id);///Add all active user ids into an array
+                    }
+               }
+                for (i = 0; i < activeUsers.length; i++) {
+                    bot.say({user: activeUsers[i]}, 'direct_message', 'RunOwner is going to Pop-a-Top, respond to me with what you want and I\'ll pass it along! Respond with \'pass\' to sit this one out.');
+
+                }
+            }
+            );*/
+            
+        }
+
+break;
+
         default:
         slashCommand.replyPublic(message, 'I\'m sorry <@' + message.user + '>. I can\'t do that');
 
